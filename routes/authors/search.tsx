@@ -35,7 +35,7 @@ export default function Home({ params, data}: PageProps) {
       <div class="mx-auto my-0 w-3/4 flex flex-col items-center">
           <AuthorSearch />
           <div>Displaying {data.authors.length} result{data.authors.length === 1 ? '' : 's'} for '{data.author}'</div>
-        <ul class='mt-20'>
+        <ul class='mt-20 w-full'>
           { data.authors.length === 0 && 
               <div>
                   Sorry, no Authors match that search. Please try a different search.
@@ -43,11 +43,9 @@ export default function Home({ params, data}: PageProps) {
             }
           { data.authors.map(author => {
             return (
-              <>
-                <blockquote class="p-4 my-4 border-l-4 border-gray-300 bg-gray-200">
+                <blockquote class="p-4 my-4 border-l-4 border-gray-300 bg-gray-200 w-full">
                     <a href={`/quotes/${author}`} class="text-xl italic font-medium leading-relaxed text-grey-400 underlined">{author}</a>
                 </blockquote>
-              </>
 
             );
             })}
