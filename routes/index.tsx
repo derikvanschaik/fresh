@@ -1,14 +1,14 @@
 import AuthorSearch from "../components/AuthorSearch.tsx";
 
 export default function Home() {
-    const background = {
-        backgroundImage: `url(${'/landscape.jpeg'})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'top',
-        backgroundRepeat: 'no-repeat'
-    }
+    // const background = {
+    //     backgroundImage: `url(${'/landscape.jpeg'})`,
+    //     backgroundSize: 'cover',
+    //     backgroundPosition: 'top',
+    //     backgroundRepeat: 'no-repeat'
+    // }
   return (
-          <div class='w-full h-screen flex flex-col items-center justify-around bg-gray-50' style={background}>
+          <div class='w-full h-screen flex flex-col items-center justify-around bg-gray-50' >
                 <div class='bg-black border-2 border-yellow-200 rounded-lg px-10 py-5'>
                         <h1 class="text-4xl font-extrabold leading-none tracking-tight text-white md:text-5xl lg:text-6xl">Fresh Quotes</h1>
                         {/* fresh js badge */}

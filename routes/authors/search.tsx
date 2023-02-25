@@ -32,7 +32,7 @@ export default function Home({ params, data}: PageProps) {
         <title>Search Results</title>
       </Head>
       
-      <div class="mx-auto my-0 w-3/4">
+      <div class="mx-auto my-0 w-3/4 flex flex-col items-center">
           <AuthorSearch />
           <div>Displaying {data.authors.length} result{data.authors.length === 1 ? '' : 's'} for '{data.author}'</div>
         <ul class='mt-20'>
