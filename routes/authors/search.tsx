@@ -37,7 +37,7 @@ export default function Home({ params, data}: PageProps) {
           <div>Displaying {data.authors.length} result{data.authors.length === 1 ? '' : 's'} for '{data.author}'</div>
         <ul class='mt-20 w-full'>
           { data.authors.length === 0 && 
-              <div>
+              <div class='text-center'>
                   Sorry, no Authors match that search. Please try a different search.
               </div>
             }
