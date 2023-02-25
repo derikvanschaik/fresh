@@ -16,9 +16,9 @@ const manifest = {
     "./routes/index.tsx": $2,
     "./routes/quotes/[author].tsx": $3,
   },
-  islands: {
-    "./islands/Counter.tsx": $$0,
-  },
+  // islands: {
+  //   "./islands/Counter.tsx": $$0,
+  // },
   baseUrl: import.meta.url,
   config,
 };
