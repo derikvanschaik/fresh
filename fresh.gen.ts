@@ -7,7 +7,7 @@ import * as $0 from "./routes/authors/[page].tsx";
 import * as $1 from "./routes/authors/search.tsx";
 import * as $2 from "./routes/index.tsx";
 import * as $3 from "./routes/quotes/[author].tsx";
-import * as $$0 from "./islands/Counter.tsx";
+// import * as $$0 from "./islands/Counter.tsx";
 
 const manifest = {
   routes: {
