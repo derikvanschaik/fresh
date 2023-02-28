@@ -9,19 +9,10 @@ export const handler: Handlers = {
   },
   async POST(req, ctx) {
     const form = await req.formData();
-    const searchedAuthor = form.get("author").toLowerCase();
-    const resp = await fetch(`https://type.fit/api/quotes`);
-    const authors = new Set();
-    (await resp.json() ).map(({author, text}) => {
-      const auth = author? author: 'Anonymous';
-      if(!authors.has(auth)){
-        if(auth.toLowerCase().includes(searchedAuthor) || searchedAuthor.includes(auth.toLowerCase()) ){
-            authors.add(auth);
-        }
-      }
-    });
-
-    return ctx.render({ authors: [...authors], author: searchedAuthor })
+    const searchedAuthor = form.get("author");
+    const resp = await fetch(`${Deno.env.get("API_URL")}/authors?includes=${searchedAuthor}`);
+    const authors = await resp.json();
+    return ctx.render({ authors, author: searchedAuthor })
   },
 };
 
@@ -41,12 +32,11 @@ export default function Home({ params, data}: PageProps) {
                   Sorry, no Authors match that search. Please try a different search.
               </div>
             }
-          { data.authors.map(author => {
+          { data.authors.map(({author, _id}) => {
             return (
                 <blockquote class="p-4 my-4 border-l-4 border-gray-300 bg-gray-200 w-full">
-                    <a href={`/quotes/${author}`} class="text-xl italic font-medium leading-relaxed text-grey-400 underlined">{author}</a>
+                    <a href={`/quotes/${_id}`} class="text-xl italic font-medium leading-relaxed">{author}</a>
                 </blockquote>
-
             );
             })}
         </ul>
