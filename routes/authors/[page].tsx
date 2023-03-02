@@ -14,7 +14,13 @@ export const handler: Handlers = {
       url += '&sort=' + sortQuery; 
     }
     const resp = await fetch(url);
-    const authors = await resp.json();
+    const authors = (await resp.json()).map(({_id}) =>{
+      return {
+        author: _id
+      }
+    })
+    // api 
+
     return ctx.render({ authors , sortQuery })
   },
   async POST(req, ctx){
@@ -54,11 +60,11 @@ export default function Home({ params, data}: PageProps) {
       <SearchSettings sort={sort}/>
 
           <ul>
-            { data.authors.map( ({_id, author }) => {
+            { data.authors.map( ({ author }) => {
               return (
                 <>
                   <blockquote class="p-4 my-4 border-l-4 border-gray-300 bg-gray-200">
-                      <a href={`/quotes/${_id}`} class="text-xl italic font-medium leading-relaxed">{author}</a>
+                      <a href={`/quotes/${author}`} class="text-xl italic font-medium leading-relaxed">{author}</a>
                   </blockquote>
                 </>
 

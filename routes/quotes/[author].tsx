@@ -3,11 +3,10 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 
 export const handler: Handlers = {
   async GET(_, ctx) {
-    const authorID = ctx.params.author;
-    const resp = await fetch(`${Deno.env.get("API_URL")}/authors/${authorID}`);
-    const data = await resp.json();
-    const authorData = data.author;
-    return ctx.render({ quotes: authorData.quotes, author: authorData.author })
+    const authorName = ctx.params.author;
+    const resp = await fetch(`${Deno.env.get("API_URL")}/quotes/${authorName}`);
+    const quotes = ( await resp.json() ).map( data => data.quote );
+    return ctx.render({ quotes , author: authorName })
     
   },
 };

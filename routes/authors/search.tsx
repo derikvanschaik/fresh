@@ -11,7 +11,12 @@ export const handler: Handlers = {
     const form = await req.formData();
     const searchedAuthor = form.get("author");
     const resp = await fetch(`${Deno.env.get("API_URL")}/authors?includes=${searchedAuthor}`);
-    const authors = await resp.json();
+    // api 
+    const authors = ( await resp.json() ).map( 
+      ({_id}) => {
+        return { author: _id }
+      }
+      );
     return ctx.render({ authors, author: searchedAuthor })
   },
 };
@@ -32,10 +37,10 @@ export default function Home({ params, data}: PageProps) {
                   Sorry, no Authors match that search. Please try a different search.
               </div>
             }
-          { data.authors.map(({author, _id}) => {
+          { data.authors.map(({author}) => {
             return (
                 <blockquote class="p-4 my-4 border-l-4 border-gray-300 bg-gray-200 w-full">
-                    <a href={`/quotes/${_id}`} class="text-xl italic font-medium leading-relaxed">{author}</a>
+                    <a href={`/quotes/${author}`} class="text-xl italic font-medium leading-relaxed">{author}</a>
                 </blockquote>
             );
             })}
