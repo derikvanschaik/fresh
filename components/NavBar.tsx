@@ -15,8 +15,7 @@ export default function NavBar(){
             <a href="/authors/1" class="block mt-4 lg:inline-block lg:mt-0 mr-4">
                 Authors
             </a>
-            {/* TODO: create a quotes browse page */}
-            <a href="/quotes/search" class="block mt-4 lg:inline-block lg:mt-0 mr-4">
+            <a href="/quotes/browse/1" class="block mt-4 lg:inline-block lg:mt-0 mr-4">
                 Quotes
             </a>
             <a href="/authors/search" class="block mt-4 lg:inline-block lg:mt-0">
