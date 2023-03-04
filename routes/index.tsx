@@ -1,11 +1,13 @@
+import NavBar from '../components/NavBar.tsx';
+
 export default function Home() {
   return (
           <div class='w-full' >
-                <div class='px-10 py-2'>
+              <NavBar />
+                {/* <div class='px-10 py-2'>
                         <h1 class="text-lg font-semibold leading-none tracking-tight">Fresh Quotes</h1>
-                        {/* fresh js badge */}
                         <img width="197" height="37" src="https://fresh.deno.dev/fresh-badge.svg" alt="Made with Fresh" />
-                </div>
+                </div> */}
 
             <div class="w-full text-center bg-purple-400 py-24 px-6">
                 <h1 class="text-2xl tracking-tight mb-12 text-gray-100">Browse our vast collection of quotes from <br /><span class="text-5xl font-bold italic text-yellow-300">676 authors</span> and become inspired...</h1>

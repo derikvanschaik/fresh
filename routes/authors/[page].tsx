@@ -1,6 +1,7 @@
 import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import SearchSettings from '../../islands/SearchSettings.tsx';
+import NavBar from '../../components/NavBar.tsx';
 
 
 export const handler: Handlers = {
@@ -44,27 +45,27 @@ export default function Home({ params, data}: PageProps) {
       <Head>
         <title>Authors</title>
       </Head>
-      <div class="mx-auto my-0 w-3/4">
-        {/* navigation + search */}
-      <div class="relative fixed top-0 left-0 w-full bg-gray-300 bg-opacity-50 flex flex-row justify-center items-center">
-        <a class='absolute top-0 left-0 font-bold' href='/authors/search'>Search</a>
-        <a 
-          class="text-gray-400 font-bold py-2 px-4 rounded" 
-          href={`/authors/${parseInt(params.page) - 1}${hasSort? '?sort=' + sort : ''}`}>Previous</a>
-        <a 
-        class="text-gray-400 font-bold py-2 px-4 rounded" 
-        href={`/authors/${parseInt(params.page) + 1}${hasSort? '?sort=' + sort : ''}`}>Next</a>
-      </div>
-      {/* add sort option */}
-      <div class='mt-20'>
-      <SearchSettings sort={sort}/>
+      <div>
+        <NavBar />
+        <div class="mx-auto my-0 w-3/4">
+      <div>
+          <SearchSettings sort={sort}/>
+          <div class='flex flex-row justify-center items-center'>
+            <a 
+              class="underline font-bold py-2 px-4 rounded text-2xl" 
+              href={`/authors/${parseInt(params.page) - 1}${hasSort? '?sort=' + sort : ''}`}>PREV</a>
+            <a 
+              class="underline font-bold py-2 px-4 rounded text-2xl" 
+              href={`/authors/${parseInt(params.page) + 1}${hasSort? '?sort=' + sort : ''}`}>NEXT</a>
+
+          </div>
 
           <ul>
             { data.authors.map( ({ author }) => {
               return (
                 <>
                   <blockquote class="p-4 my-4 border-l-4 border-gray-300 bg-gray-200">
-                      <a href={`/quotes/${author}`} class="text-xl italic font-medium leading-relaxed">{author}</a>
+                      <a href={`/quotes/${author}`} class="text-xl italic font-medium leading-relaxed underline">{author}</a>
                   </blockquote>
                 </>
 
@@ -74,6 +75,8 @@ export default function Home({ params, data}: PageProps) {
       </div>
 
         </div>
+      </div>
+      
     </>
   );
 }
