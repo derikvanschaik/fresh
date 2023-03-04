@@ -5,18 +5,14 @@ import { getSearchValueAndResponse } from "../../components/Search.tsx";
 
 export const handler: Handlers = {
   async GET(req, ctx){
-      return ctx.render({ authors: [], author: ''})
+      return ctx.render({ quotes : [], quote: ''})
   },
   async POST(req, ctx) {
-    const endpoint = `${Deno.env.get("API_URL")}/authors`;
-    const [ searchedAuthor, data ] = await getSearchValueAndResponse(req, endpoint);
+    const endpoint = `${Deno.env.get("API_URL")}/quotes`;
+    const [ searchedQuote , data ] = await getSearchValueAndResponse(req, endpoint);
     // parse api return value 
-    const authors = ( data ).map( 
-      ({_id}) => {
-        return { author: _id }
-      }
-      );
-    return ctx.render({ authors, author: searchedAuthor })
+    const quotes = data;
+    return ctx.render({ quotes, quote: searchedQuote })
   },
 };
 
@@ -29,20 +25,21 @@ export default function Home({ params, data}: PageProps) {
       
       <div class="mx-auto my-0 w-3/4 flex flex-col items-center">
 
-          <Search action="/authors/search" />
-          <p class='mt-4'>Looking for a quote? Try <a class="underline" href="/quotes/search">Quotes Search</a> </p>
+          <Search action="/quotes/search" />
+          <p class='mt-4'>Looking for an author? Try <a class="underline" href="/authors/search">Author Search</a> </p>
+          
 
-          <div>Displaying {data.authors.length} result{data.authors.length === 1 ? '' : 's'} for '{data.author}'</div>
+          <div>Displaying {data.quotes.length} result{data.quotes.length === 1 ? '' : 's'} for quotes containing '{data.quote}'</div>
         <ul class='mt-20 w-full'>
-
-          { data.authors.length === 0 && 
+          { data.quotes.length === 0 && 
               <div class='text-center'>
-                  Sorry, no Authors match that search. Please try a different search.
+                  Sorry, no quotes contain that text. Please try a different search.
               </div>
             }
-          { data.authors.map(({author}) => {
+          { data.quotes.map(({author, quote}) => {
             return (
                 <blockquote class="p-4 my-4 border-l-4 border-gray-300 bg-gray-200 w-full">
+                    <p>'{quote}'</p>
                     <a href={`/quotes/${author}`} class="text-xl italic font-medium leading-relaxed">{author}</a>
                 </blockquote>
             );

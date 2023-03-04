@@ -1,5 +1,3 @@
-import AuthorSearch from "../components/AuthorSearch.tsx";
-
 export default function Home() {
   return (
           <div class='w-full' >
