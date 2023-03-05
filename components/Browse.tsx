@@ -21,7 +21,7 @@ export async function getResults(req: any, ctx: any, baseURL: string ):
       const data = await resp.json();
       // invalid from server 
       if(resp.status == 400){
-        return { data, sortQuery: sortQueryResult, errorMessage: data.message };
+        return { data, sortQuery: sortQueryResult, errorMessage: "An error occurred."};
       }else {
         return { data, sortQuery: sortQueryResult, errorMessage: null };
       }
