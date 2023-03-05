@@ -3,14 +3,9 @@ import NavBar from './NavBar.tsx';
 import SearchSettings from '../islands/SearchSettings.tsx'
 
 
-// export async function getSearchValueAndResponse(req: any, url: string): [string, any] {
-//   const form = await req.formData();
-//   const search = form.get("search");
-//   const resp = await fetch(`${url}?includes=${search}`);
-//   const data = await resp.json();
-//   return [search, data];
-// }
-export async function getResults(req: any, ctx: any, baseURL: string ): [data: any, sortQuery: string | null ] {
+export async function getResults(req: any, ctx: any, baseURL: string ):
+  { data: any, sortQuery: string | null, errorMessage: any } {
+
     const resultsPerPage = 50;
     const page = parseInt( ctx.params.page );
     let url = `${baseURL}?page=${page - 1}&limit=${resultsPerPage}`;
@@ -19,10 +14,20 @@ export async function getResults(req: any, ctx: any, baseURL: string ): [data: a
     if (new URL(req.url).searchParams.has("sort")){
       url += '&sort=' + sortQuery; 
     }
-    const resp = await fetch(url);
-    const data = await resp.json();
     const sortQueryResult = sortQuery === '0' || sortQuery === '1'? sortQuery : null;
-    return [data, sortQueryResult];
+
+    try{
+      const resp = await fetch(url);
+      const data = await resp.json();
+      // invalid from server 
+      if(resp.status == 400){
+        return { data, sortQuery: sortQueryResult, errorMessage: data.message };
+      }else {
+        return { data, sortQuery: sortQueryResult, errorMessage: null };
+      }
+    }catch(err){
+      return { data: [], sortQuery: sortQueryResult, errorMessage: "An error occurred."};
+    }
 }
 export async function redirectOnSort(req: any, baseLocation: string){
     const form = await req.formData();
@@ -66,7 +71,11 @@ export function resultsTemplate(data: any, params: any, browseType: string){
               href={next}>NEXT</a>
 
           </div>
-
+          { data.errorMessage && 
+            <h1 class='text-center px-5 py-2 border-1 border-red-500 rounded bg-red-100'>
+            <span class='text-xl text-red-700 font-bold italic'>ERROR: </span>{data.errorMessage}
+            </h1>
+            }
           <ul>
             { data.data.map( ({ author, quote }) => {
               return (

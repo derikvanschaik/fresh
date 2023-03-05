@@ -8,13 +8,13 @@ import { getResults, redirectOnSort, resultsTemplate } from '../../components/Br
 export const handler: Handlers = {
 
   async GET(req, ctx) {
-    const [data, sortQuery] = await getResults(req, ctx, `${Deno.env.get("API_URL")}/authors`)
+    const { data, sortQuery, errorMessage } = await getResults(req, ctx, `${Deno.env.get("API_URL")}/authors`)
     const authors = (data).map(({_id}) =>{
       return {
         author: _id
       }
     })
-    return ctx.render({ data: authors , sortQuery })
+    return ctx.render({ data: authors , sortQuery, errorMessage })
   },
   async POST(req, ctx){
     const baseURL = '/authors/1';
