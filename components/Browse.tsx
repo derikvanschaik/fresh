@@ -1,8 +1,8 @@
 import { Head } from "$fresh/runtime.ts";
 import NavBar from './NavBar.tsx';
 import SearchSettings from '../islands/SearchSettings.tsx'
-import AuthorCard from './AuthorCard.tsx';
-import QuoteCard from './QuoteCard.tsx';
+import AuthorList from './AuthorList.tsx';
+import QuoteList from './QuoteList.tsx';
 
 export async function getResults(req: any, ctx: any, baseURL: string ):
   { data: any, sortQuery: string | null, errorMessage: any } {
@@ -77,15 +77,12 @@ export function resultsTemplate(data: any, params: any, browseType: string){
               <h1 class='text-lg'><span class='text-xl text-red-700 font-bold italic'>ERROR: </span>{data.errorMessage}</h1>
             </div>
             }
-          <ul class='flex flex-col items-center w-full'>
-            { data.data.map( ({ author, quote }) => {
-              if (isAuthor){
-                  return <AuthorCard author={author} />
-              }else{
-                return <QuoteCard quote={quote} author={author} />
-              }
-              })}
-          </ul>
+            {
+              isAuthor && <AuthorList authors={data.data}/>
+            }
+            {
+              !isAuthor && <QuoteList quotes={data.data} />
+            }
       </div>
 
         </div>
