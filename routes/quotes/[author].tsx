@@ -1,5 +1,6 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import NavBar from '../../components/NavBar.tsx';
+import QuoteCard from '../../components/QuoteCard.tsx';
 
 export const handler: Handlers = {
   async GET(_, ctx) {
@@ -18,16 +19,7 @@ export default function Greet({params, data }: PageProps) {
       <h1 
         class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">Quotes by <span class="text-blue-600 dark:text-blue-500">{data.author}</span> :</h1>
       <ul>
-        { data.quotes.map(quote => {
-          return (
-            <>
-              <blockquote class="p-4 my-4 border-l-4 border-gray-300 bg-gray-200">
-                  <p class="text-xl italic font-medium leading-relaxed text-grey-400">"{quote}"</p>
-              </blockquote>
-            </>
-
-          );
-          })}
+        { data.quotes.map(quote => <QuoteCard quote={quote} />)}
       </ul>
     </div>
     </div>

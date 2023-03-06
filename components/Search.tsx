@@ -1,5 +1,7 @@
 import { Head } from "$fresh/runtime.ts";
 import NavBar from './NavBar.tsx';
+import QuoteCard from './QuoteCard.tsx';
+import AuthorCard from './AuthorCard.tsx';
 
 interface SearchProps {
   action: string
@@ -52,23 +54,15 @@ export function resultsTemplate(data: any, searchType: string){
               </div>
             }
           { data.map((object) => {
-            if (isAuthor){
-              const {author} = object;
-              return (
-                <blockquote class="p-4 my-4 border-l-4 border-gray-300 bg-gray-200 w-full">
-                    <a href={`/quotes/${author}`} class="text-xl italic font-medium leading-relaxed underline">{author}</a>
-                </blockquote>
-              );
-            }else{
-              const {author, quote} = object;
-              return (
-                <blockquote class="p-4 my-4 border-l-4 border-gray-300 bg-gray-200 w-full">
-                    <p>'{quote}'</p>
-                    <a href={`/quotes/${author}`} class="text-xl italic font-medium leading-relaxed underline">{author}</a>
-                </blockquote>
-            );
+              if (isAuthor){
+                const {author} = object;
+                return <AuthorCard author={author}/>
+              }else{
+                const {author, quote} = object;
+                return <QuoteCard quote={quote} author={author} />
+              }
+            })
             }
-            })}
           </ul>
           </div>
       </div>
