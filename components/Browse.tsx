@@ -72,9 +72,9 @@ export function resultsTemplate(data: any, params: any, browseType: string){
 
           </div>
           { data.errorMessage && 
-            <h1 class='text-center px-5 py-2 border-1 border-red-500 rounded bg-red-100'>
-            <span class='text-xl text-red-700 font-bold italic'>ERROR: </span>{data.errorMessage}
-            </h1>
+            <div class='text-center px-5 py-2 border-1 border-red-500 rounded bg-red-100'>
+              <h1 class='text-lg'><span class='text-xl text-red-700 font-bold italic'>ERROR: </span>{data.errorMessage}</h1>
+            </div>
             }
           <ul>
             { data.data.map( ({ author, quote }) => {
