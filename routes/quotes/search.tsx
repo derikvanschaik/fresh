@@ -1,7 +1,7 @@
 import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
-import Search from "../../components/Search.tsx";
-import { getSearchValueAndResponse, resultsTemplate } from "../../components/Search.tsx";
+import SearchComponent from "../../components/SearchComponent.tsx";
+import { getSearchValueAndResponse } from '../../utils/utils.tsx'
 import NavBar from '../../components/NavBar.tsx';
 
 export const handler: Handlers = {
@@ -20,7 +20,7 @@ export const handler: Handlers = {
 export default function Home({ params, data}: PageProps) {
   return (
     <>
-      { resultsTemplate(data.quotes, 'quote')}
+      <SearchComponent results={data.quotes} searchType='quote' />
     </>
   );
 }

@@ -2,7 +2,10 @@ import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import SearchSettings from '../../islands/SearchSettings.tsx';
 import NavBar from '../../components/NavBar.tsx';
-import { getResults, redirectOnSort, resultsTemplate } from '../../components/Browse.tsx';
+import PaginationNav from '../../components/PaginationNav.tsx';
+import AuthorList from '../../components/AuthorList.tsx';
+import ErrorCard from '../../components/ErrorCard.tsx';
+import { getResults, redirectOnSort } from '../../utils/utils.tsx';
 
 
 export const handler: Handlers = {
@@ -14,7 +17,7 @@ export const handler: Handlers = {
         author: _id
       }
     })
-    return ctx.render({ data: authors , sortQuery, errorMessage })
+    return ctx.render({ authors , sortQuery, errorMessage })
   },
   async POST(req, ctx){
     const baseURL = '/authors/1';
@@ -22,11 +25,23 @@ export const handler: Handlers = {
   }
 };
 
-export default function Home({ params, data}: PageProps) {
+export default function AuthorsPage({ params, data}: PageProps) {
+  const hasSort = data.sortQuery !== null
+
+  const next = `${parseInt(params.page) + 1}${hasSort? '?sort=' +  data.sortQuery: ''}`;
+  const prev = `${parseInt(params.page) - 1}${hasSort? '?sort=' + data.sortQuery : ''}`;
+
   return (
-    <>
-    { resultsTemplate(data, params, 'author') }
-      
-    </>
+      <div>
+        <NavBar />
+        <div class="mx-auto my-0 w-3/4">
+          <div>
+              <PaginationNav next={next} prev={prev} />
+              <SearchSettings sort={data.sortQuery} action='/authors/1' />
+              { data.errorMessage && <ErrorCard message={ data.errorMessage } /> }
+              <AuthorList authors={data.authors}/>
+          </div>
+        </div>
+      </div>
   );
 }
