@@ -13,8 +13,8 @@ export const handler: Handlers = {
     const [ searchedAuthor, data ] = await getSearchValueAndResponse(req, endpoint);
     // parse api return value 
     const authors = ( data ).map( 
-      ({_id}) => {
-        return { author: _id }
+      ([author, quoteCount]) => {
+        return { author, quoteCount }
       }
       );
     return ctx.render({ authors, author: searchedAuthor })

@@ -50,8 +50,8 @@ export default function SearchComponent({ results, searchType}: SearchProps ){
             }
           { results.map((object) => {
               if (isAuthor){
-                const {author} = object;
-                return <AuthorCard author={author}/>
+                const {author, quoteCount} = object;
+                return <AuthorCard author={author} quoteCount={quoteCount}/>
               }else{
                 const {author, quote} = object;
                 return <QuoteCard quote={quote} author={author} />

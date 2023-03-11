@@ -12,7 +12,12 @@ export const handler: Handlers = {
     const endpoint = `${Deno.env.get("API_URL")}/quotes`;
     const [ searchedQuote , data ] = await getSearchValueAndResponse(req, endpoint);
     // parse api return value 
-    const quotes = data;
+    const quotes = data.map(({author_name, quote}) =>{
+      return{
+        author: author_name,
+        quote
+      }
+    });
     return ctx.render({ quotes, quote: searchedQuote })
   },
 };

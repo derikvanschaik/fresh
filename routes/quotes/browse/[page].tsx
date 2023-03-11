@@ -13,9 +13,9 @@ export const handler: Handlers = {
   async GET(req, ctx) {
     const { data, errorMessage } = await getResults(req, ctx, `${Deno.env.get("API_URL")}/quotes`)
     if(!errorMessage){
-      const quotes = (data).map(({quote, author}) =>{
+      const quotes = (data).map(({quote, author_name}) =>{
         return {
-          author,
+          author: author_name,
           quote
         }
       })

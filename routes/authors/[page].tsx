@@ -12,9 +12,10 @@ export const handler: Handlers = {
 
   async GET(req, ctx) {
     const { data, sortQuery, errorMessage } = await getResults(req, ctx, `${Deno.env.get("API_URL")}/authors`)
-    const authors = (data).map(({_id}) =>{
+    const authors = (data).map(([author, quoteCount]) =>{
       return {
-        author: _id
+        author,
+        quoteCount
       }
     })
     return ctx.render({ authors , sortQuery, errorMessage })
