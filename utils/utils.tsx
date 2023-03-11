@@ -7,9 +7,12 @@ export async function getResults(req: any, ctx: any, baseURL: string ):
     const page = parseInt( ctx.params.page );
     let url = `${baseURL}?page=${page - 1}&limit=${resultsPerPage}`;
     const sortQuery = new URL(req.url).searchParams.get("sort");
-
+    const sortBy = new URL(req.url).searchParams.get("sortBy");
     if (new URL(req.url).searchParams.has("sort")){
       url += '&sort=' + sortQuery; 
+    }
+    if (new URL(req.url).searchParams.has("sortBy")){
+      url += '&sortBy=' + sortBy; 
     }
     const sortQueryResult = sortQuery === '0' || sortQuery === '1'? sortQuery : null;
 
@@ -18,23 +21,25 @@ export async function getResults(req: any, ctx: any, baseURL: string ):
       const data = await resp.json();
       // invalid from server 
       if(resp.status == 400){
-        return { data, sortQuery: sortQueryResult, errorMessage: "An error occurred."};
+        return { data, sortQuery: { value : sortQueryResult, type: sortBy }, errorMessage: "An error occurred."};
       }else {
-        return { data, sortQuery: sortQueryResult, errorMessage: null };
+        return { data, sortQuery: { value : sortQueryResult, type: sortBy }, errorMessage: null };
       }
     }catch(err){
-      return { data: [], sortQuery: sortQueryResult, errorMessage: "An error occurred."};
+      return { data: [], sortQuery: { value : sortQueryResult, type: sortBy }, errorMessage: "An error occurred."};
     }
 }
 export async function redirectOnSort(req: any, baseLocation: string){
     const form = await req.formData();
     const sortValue = form.get("sort");
+    const sortBy = form.get("sortBy");
+
     const hasSort = sortValue == "1" || sortValue == "0";
     // redirect back to page with the sort value
     return new Response("", {
       // redirects to get when status is 303
       status: 303,
-      headers: { Location: `${baseLocation}${hasSort? '?sort=' + sortValue : ''}`},
+      headers: { Location: `${baseLocation}${hasSort? '?sort=' + sortValue : ''}${sortBy? '&sortBy=' + sortBy:''}`},
     });
 }
 

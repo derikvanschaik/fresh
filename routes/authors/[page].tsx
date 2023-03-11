@@ -12,12 +12,15 @@ export const handler: Handlers = {
 
   async GET(req, ctx) {
     const { data, sortQuery, errorMessage } = await getResults(req, ctx, `${Deno.env.get("API_URL")}/authors`)
-    const authors = (data).map(([author, quoteCount]) =>{
-      return {
-        author,
-        quoteCount
-      }
-    })
+    let authors = [];
+    if(!errorMessage){
+      authors = (data).map(([author, quoteCount]) =>{
+        return {
+          author,
+          quoteCount
+        }
+      })
+    }
     return ctx.render({ authors , sortQuery, errorMessage })
   },
   async POST(req, ctx){
@@ -27,10 +30,11 @@ export const handler: Handlers = {
 };
 
 export default function AuthorsPage({ params, data}: PageProps) {
-  const hasSort = data.sortQuery !== null
-
-  const next = `${parseInt(params.page) + 1}${hasSort? '?sort=' +  data.sortQuery: ''}`;
-  const prev = `${parseInt(params.page) - 1}${hasSort? '?sort=' + data.sortQuery : ''}`;
+  const hasSort = data.sortQuery.value !== null
+  const value = data.sortQuery.value
+  const type = data.sortQuery.type;
+  const next = `${parseInt(params.page) + 1}${hasSort? '?sort=' +  value : ''}${type? '&sortBy=' + type : ''}`;
+  const prev = `${parseInt(params.page) - 1}${hasSort? '?sort=' + value : ''}${type? '&sortBy=' + type : ''}`;
 
   return (
       <div>
@@ -38,7 +42,7 @@ export default function AuthorsPage({ params, data}: PageProps) {
         <div class="mx-auto my-0 w-3/4">
           <div>
               <PaginationNav next={next} prev={prev} />
-              <SearchSettings sort={data.sortQuery} action='/authors/1' />
+              <SearchSettings sort={value} action='/authors/1' sortBy={type}/>
               { data.errorMessage && <ErrorCard message={ data.errorMessage } /> }
               <AuthorList authors={data.authors}/>
           </div>
