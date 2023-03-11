@@ -6,7 +6,13 @@ export const handler: Handlers = {
   async GET(_, ctx) {
     const authorName = ctx.params.author;
     const resp = await fetch(`${Deno.env.get("API_URL")}/quotes/${authorName}`);
-    const quotes = await resp.json();
+    const data = await resp.json();
+    const quotes = data.map( ({quote, author_name}) =>{
+      return {
+        author: author_name, 
+        quote
+      }
+    })
     return ctx.render({ quotes , author: authorName })
     
   },

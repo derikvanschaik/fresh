@@ -5,7 +5,7 @@ export default function AuthorList({ authors }){
     return(
         <GridComponent>
             {
-                authors.map(({author}) => <AuthorCard author={author}/> )
+                authors.map(({author, quoteCount}) => <AuthorCard author={author} quoteCount={quoteCount}/> )
             }
         </GridComponent>
     )
